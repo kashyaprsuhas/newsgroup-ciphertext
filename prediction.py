@@ -32,7 +32,8 @@ model = Pipeline(memory=None, steps=[
         ('clf', LogisticRegression(multi_class='multinomial', verbose=2, n_jobs=-1))
     ])
 
-model.load_model("ciphertext_model.json")
+# model.load_model("ciphertext_model.json")
+model = load(open('ciphertext_model.pkl', 'rb'))
 predictions = model.predict(test_data_x)
 #%%
 cm = confusion_matrix(test_data['target'], predictions)

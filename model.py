@@ -5,6 +5,8 @@ import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, classification_report
+from pickle import dump
 
 data = pd.read_csv("dataset/train.csv")
 unique_labels = data['target'].drop_duplicates()
@@ -21,12 +23,12 @@ print("test_data.shape:: "+str(test_data.shape))
 target_labels = train_data['target']
 plot.hist(target_labels)
 plot.xticks(sorted_lables, sorted_lables);
-plot.show()
+# plot.show()
 
 target_labels = test_data['target']
 plot.hist(target_labels)
 plot.xticks(sorted_lables, sorted_lables);
-plot.show()
+# plot.show()
 #%%
 tfidf = TfidfVectorizer(lowercase=False, analyzer='char', ngram_range=(1,5), max_features=20000)
 train_data_features = tfidf.fit_transform(train_data['ciphertext'])
@@ -53,5 +55,6 @@ plot.ylabel('Actual target label')
 plot.xlabel('Predicted label')
 print(classification_report(test_data['target'], predictions, digits=3))
 
-model.save_model("ciphertext_model.json")
+# model.save_model("ciphertext_model.json")
+dump(model, open('ciphertext_model.pkl', 'wb'))
 #%%

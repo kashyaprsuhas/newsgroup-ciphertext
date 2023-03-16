@@ -3,6 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.linear_model import LogisticRegression
+from pickle import load
 import numpy as np
 import pandas as pd
 
@@ -15,7 +16,9 @@ model = Pipeline(memory=None, steps=[
         ('scaler', MaxAbsScaler(copy=False)),
         ('clf', LogisticRegression(multi_class='multinomial', verbose=2, n_jobs=-1))
     ])
-model.load_model("ciphertext_model.json")
+
+# model.load_model("ciphertext_model.json")
+model = load(open('ciphertext_model.pkl', 'rb'))
 
 if st.checkbox('Show Training Dataframe'):
     data
