@@ -39,7 +39,6 @@ test_data_features = tfidf.transform(test_data['ciphertext'])
 
 test_data_x = test_data_features.tocsr()
 
-del(tfidf)
 #%%
 model = Pipeline(memory=None, steps=[
         ('scaler', MaxAbsScaler(copy=False)),
@@ -56,5 +55,6 @@ plot.xlabel('Predicted label')
 print(classification_report(test_data['target'], predictions, digits=3))
 
 # model.save_model("ciphertext_model.json")
+dump(tfidf, open('tfidf.pkl', 'wb'))
 dump(model, open('ciphertext_model.pkl', 'wb'))
 #%%

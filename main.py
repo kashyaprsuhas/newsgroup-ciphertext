@@ -9,7 +9,7 @@ import pandas as pd
 
 st.header("Newsgroup Ciphertext App")
 
-data = pd.read_csv("https://raw.githubusercontent.com/kashyaprsuhas/newsgroup-ciphertext/main/dataset/train.csv")
+data = pd.read_csv("https://raw.githubusercontent.com/kashyaprsuhas/newsgroup-ciphertext/main/dataset/test.csv")
 
 # load model
 model = Pipeline(memory=None, steps=[
@@ -20,22 +20,22 @@ model = Pipeline(memory=None, steps=[
 # model.load_model("ciphertext_model.json")
 model = load(open('ciphertext_model.pkl', 'rb'))
 
-if st.checkbox('Show Training Dataframe'):
+if st.checkbox('Show Test Dataset'):
     data
     
-input_ciphertext = st.text_input("Enter Ciphertext: ", key="name")
+input_ciphertext = st.text_input("Enter Ciphertext: ", key="input_ciphertext")
 
-st.write(f"The given ciphertext belongs to the newsgroup: {input_ciphertext}")
+input_ciphertext = [input_ciphertext]
 
 if st.button('Make Prediction'):
-    tfidf = TfidfVectorizer(lowercase=False, analyzer='char', ngram_range=(1,5), max_features=20000)
+    st.write(f"The given ciphertext belongs to the newsgroup: {input_ciphertext}")
+    tfidf = load(open('tfidf.pkl', 'rb'))
     input_data_features = tfidf.transform(input_ciphertext)
     input_data_x = input_data_features.tocsr()
     del(tfidf)
     prediction = model.predict(input_data_x)
     print("final prediction", prediction)
     st.write(f"The given ciphertext belongs to the newsgroup: {prediction}")
-    st.write(f"Thank you {st.session_state.name}! I hope you liked it.")
 
 
 
