@@ -25,6 +25,8 @@ if st.checkbox('Show Training Dataframe'):
     
 input_ciphertext = st.text_input("Enter Ciphertext: ", key="name")
 
+st.write(f"The given ciphertext belongs to the newsgroup: {input_ciphertext}")
+
 if st.button('Make Prediction'):
     tfidf = TfidfVectorizer(lowercase=False, analyzer='char', ngram_range=(1,5), max_features=20000)
     input_data_features = tfidf.transform(input_ciphertext)
@@ -32,7 +34,7 @@ if st.button('Make Prediction'):
     del(tfidf)
     prediction = model.predict(input_data_x)
     print("final prediction", prediction)
-    st.write(f"The given ciphertext belongs to the newsgroup: prediction")
+    st.write(f"The given ciphertext belongs to the newsgroup: {prediction}")
     st.write(f"Thank you {st.session_state.name}! I hope you liked it.")
 
 
