@@ -23,12 +23,12 @@ print("test_data.shape:: "+str(test_data.shape))
 target_labels = train_data['target']
 plot.hist(target_labels)
 plot.xticks(sorted_lables, sorted_lables);
-# plot.show()
+plot.show()
 
 target_labels = test_data['target']
 plot.hist(target_labels)
 plot.xticks(sorted_lables, sorted_lables);
-# plot.show()
+plot.show()
 #%%
 tfidf = TfidfVectorizer(lowercase=False, analyzer='char', ngram_range=(1,5), max_features=20000)
 train_data_features = tfidf.fit_transform(train_data['ciphertext'])
@@ -46,13 +46,7 @@ model = Pipeline(memory=None, steps=[
     ])
 
 model.fit(train_data_x, train_data['target'])
-predictions = model.predict(test_data_x)
 #%%
-cm = confusion_matrix(test_data['target'], predictions)
-plot.imshow(cm)
-plot.ylabel('Actual target label')
-plot.xlabel('Predicted label')
-print(classification_report(test_data['target'], predictions, digits=3))
 
 # model.save_model("ciphertext_model.json")
 dump(tfidf, open('tfidf.pkl', 'wb'))

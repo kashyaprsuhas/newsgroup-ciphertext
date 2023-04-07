@@ -6,12 +6,14 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MaxAbsScaler
 from sklearn.linear_model import LogisticRegression
 
-data = pd.read_csv("dataset/test.csv")
+data = pd.read_csv("dataset/train.csv")
 unique_labels = data['target'].drop_duplicates()
 sorted_lables = sorted(unique_labels)
 print("sorted_lables:: "+str(sorted_lables))
 #%%
-test_data = data
+train_limit = 5000
+test_limit = train_limit + 1
+test_data = data[test_limit:]
 print("test_data.shape:: "+str(test_data.shape))
 
 target_labels = test_data['target']
@@ -19,8 +21,7 @@ plot.hist(target_labels)
 plot.xticks(sorted_lables, sorted_lables);
 plot.show()
 #%%
-tfidf = TfidfVectorizer(lowercase=False, analyzer='char', ngram_range=(1,5), max_features=20000)
-
+tfidf = load(open('tfidf.pkl', 'rb'))
 test_data_features = tfidf.transform(test_data['ciphertext'])
 
 test_data_x = test_data_features.tocsr()
